@@ -4,15 +4,21 @@ from tkinter import PhotoImage
 from tkinter.colorchooser import askcolor
 from PIL import ImageTk, Image
 
+def get_rgb_values(color):
+    return tuple(int(val * 255) for val in color)
+
 def change_color():
     colors = askcolor(title="Tkinter Color Chooser")
-    hex_value.set(colors[1])
+    r, g, b = get_rgb_values(colors[0])
+    print(str(r/255)+","+str(b/255)+","+str(g/255))
+    decimal_value_calc = (int(r/255) << 16) | (int(g/255) << 8) | int(b/255)
+    decimal_value.set(decimal_value_calc)
     canvas_color.itemconfig(square, fill=colors[1])
 
 
 def generate_spell():
     spell_name = input_spell_name.get()
-    spell_color = hex_value.get()
+    spell_color = decimal_value.get()
     mana_cost = input_mana_cost.get()
     spell_id = input_spell_id.get()
     start_raycast = input_start_raycast.get()
@@ -28,7 +34,7 @@ def generate_spell():
     output_field.delete(1.0, 'end')
 
     # Update the text
-    output_field.insert('1.0',f'/give @s minecraft:leather_horse_armor{{\n'
+    output_field.insert('1.0',f'/give @p minecraft:leather_horse_armor{{\n'
                     f'    display:{{\n'
                     f'        Name:\'{{"translate":"item.hexenwerk.spellbook","color":"#62DEDE","italic":false}}\',\n'
                     f'        Lore:[\'{{"text":"{spell_name}","color":"{spell_color}","italic":false}}\'],\n'
@@ -81,9 +87,9 @@ input_spell_name.grid(row=1, column=0, pady=2, padx=4, sticky="w")
 input_spell_color_text = ttk.Label(master=inputs_frame, text="Color", font="Noto-Sans-Lisu 17", background='#D2CBF2')
 input_spell_color_text.grid(row=2, column=0, sticky="w", pady=(10, 0))
 
-hex_value = tk.StringVar()
-entry_hex_value = ttk.Entry(master=inputs_frame, textvariable=hex_value, font="Noto-Sans-Lisu 14", state='readonly')
-entry_hex_value.grid(row=3, column=0, pady=5, sticky="w")
+decimal_value = tk.StringVar()
+entry_decimal_value = ttk.Entry(master=inputs_frame, textvariable=decimal_value, font="Noto-Sans-Lisu 14", state='readonly')
+entry_decimal_value.grid(row=3, column=0, pady=5, sticky="w")
 
 canvas_color = tk.Canvas(master=inputs_frame, width=20, height=20, background='#D2CBF2')
 canvas_color.grid(row=3, column=1, sticky="w")
