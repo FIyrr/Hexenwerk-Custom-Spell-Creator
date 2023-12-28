@@ -55,6 +55,7 @@ def generate_spell():
                     f'    hexenwerk-chat_display: \'{{"text":"{spell_name}","color":"{spell_color_display}","italic":false}}\',\n'
                     f'    hexenwerk-mana_cost: {mana_cost},\n'
                     f'    hexenwerk-spell_data:{{\n'
+                    f'        book_color: {spell_color},\n'
                     f'        start_raycast: {start_raycast},\n'
                     f'        events:{{\n'
                     f'            on_block_collision: "{block_collision_command}",\n'
