@@ -11,10 +11,12 @@ def change_color():
     colors = askcolor(title="Tkinter Color Chooser")
     r, g, b = get_rgb_values(colors[0])
     print(str(r/255)+","+str(b/255)+","+str(g/255))
+    global hex_value_book 
+    hex_value_book = '#%02x%02x%02x' % (int(r/255), int(g/255), int(b/255))
     decimal_value_calc = (int(r/255) << 16) | (int(g/255) << 8) | int(b/255)
     decimal_value.set(decimal_value_calc)
     canvas_color.itemconfig(square, fill=colors[1])
-
+    
 def change_color_hex():
     colors = askcolor(title="Tkinter Color Chooser")
     r, g, b = get_rgb_values(colors[0])
@@ -55,7 +57,9 @@ def generate_spell():
                     f'    hexenwerk-chat_display: \'{{"text":"{spell_name}","color":"{spell_color_display}","italic":false}}\',\n'
                     f'    hexenwerk-mana_cost: {mana_cost},\n'
                     f'    hexenwerk-spell_data:{{\n'
+                    f'        name: {spell_name}\n'
                     f'        book_color: {spell_color},\n'
+                    f'        book_hex_color: {hex_value_book},\n'
                     f'        start_raycast: {start_raycast},\n'
                     f'        events:{{\n'
                     f'            on_block_collision: "{block_collision_command}",\n'
